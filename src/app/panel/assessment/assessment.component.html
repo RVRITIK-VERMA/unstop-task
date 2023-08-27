@@ -1,0 +1,386 @@
+<!-- This is the modal for creating new assessments , which on creation will be dynamically shown on the screen -->
+<!-- Modal is common for mobile and desktop view with thier respective changes -->
+<div class="modal fade" id="myModal" tabindex="-1" [ngStyle]="{'display':display}" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:1">
+    <div class="modal-dialog modal-dialog-centered modal-bottom-to-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title form-heading" id="exampleModalLabel">{{isMobileView?"Sub-Section Details":"Create new assessment"}}</h5>
+                <button type="button" class="close btnclose" data-dismiss="modal" aria-label="Close"
+                    (click)="closemodal()" *ngIf="!isMobileView">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="assets/icons/RedCrossIcon.png" style="width: 40px;height: 40px;" (click)="closemodal()"
+                    *ngIf="isMobileView">
+            </div>
+            <div class="modal-body">
+                <!-- Created Reactive Form for binding -->
+                <form id="assessment-form" [formGroup]="createAssessment" (ngSubmit)="CreateAssessmentForm()">
+                    <div class="form-group">
+                        <label for="assessmentName" class="form-field">Name of Assessment</label>
+                        <input type="text" class="form-control input-field" id="assessmentName"
+                            formControlName="assessmentName" name="assessmentName" placeholder="Type Here">
+                        <div>
+                            <small
+                                *ngIf="(createAssessment.get('assessmentName')?.['touched'] || formSubmitted) && createAssessment.get('assessmentName')?.errors?.['required']"
+                                class="text-danger">
+                                Reuired field
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="testPurpose" class="form-field">Purpose of the Test</label>
+                        <select class="form-control input-field" id="testPurpose" formControlName="testPurpose"
+                            name="testPurpose">
+                            <option value="#">Select</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <!-- <i class="fas fa-chevron-down arrow-icon"></i> -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="testDescription" class="form-field">Description</label>
+                        <select class="form-control input-field" id="testDescription" formControlName="testDescription"
+                            name="testDescription">
+                            <option value="#">Select</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="testSkills" class="form-field">Skills</label>
+                        <!-- Display selected skills -->
+                        <div class="selected-skills">
+                            <!-- Selected skills will be displayed here -->
+                            <div *ngFor="let skill of selectedSkills" class="selected-skill">
+                                {{ skill }}
+                                <button type="button" class="remove-skill" (click)="removeSkill(skill)">x</button>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control input-field" id="testSkills" name="testSkills"
+                            formControlName="testSkills" placeholder="Type Here" (keydown.enter)="addSkill($event)">
+                    </div>
+                    <div class="form-group">
+                        <label for="testDuration" class="form-field">Duration of Assessment</label>
+                        <input type="text" class="form-control input-field" id="testDuration"
+                            formControlName="testDuration" name="testDuration" placeholder="HH:MM:SS">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary submit-btn" style="width: 100%;">Save</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- This is the section for desktop view -->
+<div class="assessment-page" *ngIf="!isMobileView">
+    <div class="header" style="border-bottom: 1px solid #ccc ;">
+        <div class="display-row-flex" style="align-items: center;">
+            <div class="display-flex-column" style="padding-bottom: 15px;">
+                <div class="heading">Assessment</div>
+            </div>
+            <div class="display-flex-column" style="border-bottom: 2px solid #0073E6;padding:9px 10px 12px 0px;">
+                <div class="sub-heading" [ngClass]="{'selected': !isMyAssessmentsSelected}">My Assessments</div>
+            </div>
+        </div>
+
+        <div class="icon-container">
+            <img src="assets/icons/phoneicon.png" alt="Phone icon"  style="height: 30px;width: 20px;" (click)="toggleView()">
+        </div>
+    </div>
+    <div class="overview-section" style="margin-top: 10px;">
+        <span class="overview-heading">Assessments Overview</span>
+        <!-- This is the Assessment Overview Section -->
+        <div class="rectangle-container">
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Total Assessment</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/equalicon.png">
+                    </div>
+                    <span class="rect-inner-text">34</span>
+                </div>
+            </div>
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Candidates</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/peopleicon.png">
+                    </div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text">11,145</span> <span class="num-progress">&nbsp;+89</span>
+                            <!-- <div class="vertical-line"></div> -->
+                        </div>
+
+                        <span class="num-desc">Total Candidate</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text">1,14</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+
+                        <span class="num-desc">Who Attempted</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Candidates Source</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/interneticon.png">
+                    </div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text">11,000</span> <span class="num-progress">&nbsp;+89</span>
+                            <!-- <div class="vertical-line"></div> -->
+                        </div>
+                        <span class="num-desc">E-mail</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text">145</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+
+                        <span class="num-desc">Social Share</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text">145</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+                        <span class="num-desc">Unique Link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Total Purpose</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/attachicon.png">
+                    </div>
+                    <span class="rect-inner-text">11</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- This is the section where you can create and see the assessments created -->
+    <div class="MyAssessment-section" style="margin-top: 40px;">
+        <span class="overview-heading">My Assessment</span>
+        <div style="margin-top: 16px;"></div>
+        <div class="card-section row">
+            <div class="add-assessment-card col-sm-4">
+                <img src="assets/icons/AddAssem.png" class="add-assess-icon" style="height: 70px;width: 70px;" (click)="openModal()">
+                <span class="card-heading">New Assessment</span>
+                <span class="details-of-new-assesment">From here you can add questions of multiple types like MCQs,
+                    subjective (text or paragraph)!</span>
+            </div>
+            <div class="created-assessment-cards col-sm-4" *ngFor="let item of assessmentObj">
+                <div class="display-card-content1">
+                    <div class="display-icon">
+                        <img src={{item.assess_icon}} class="create-assess-icon" style=" height: 50px;width: 50px;">
+                        <img src="assets/icons/3_dot.png" style="height: 20px;width: 20px;">
+                    </div>
+                    <span class="card-heading">{{item.assess_name}}</span>
+                    <div class="display-row-card">
+                        <span class="assess-text">{{item.assess_type}}</span>
+                        <span style="border: 1px solid #ccc;"></span>
+                        <img src="assets/icons/calendar_today.png" style="height: 17px; width: 17px;">
+                        <span class="calender-date">{{item.assess_date}}</span>
+                    </div>
+                    <div class="assess-detail">
+                        <div class="display-row-flex">
+                            <div class="display-flex-column">
+                                <span class="assess-text">{{item.assess_duration}}</span>
+                                <span class="assess-text">Duration</span>
+                            </div>
+                            &nbsp;
+                            <div class="display-flex-column">
+                                <span class="assess-text">{{item.assess_question}}</span>
+                                <span class="assess-text">Questions</span>
+                            </div>
+                        </div>
+                        <div class="display-row-flex" style="gap:10px">
+                            <img src="assets/icons/share_button.png">
+                            <img src="assets/icons/initials.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- This is the section for mobile view -->
+<div *ngIf="isMobileView">
+    <div class="mobile-section">
+        <!-- In case of mobile view side panel is toggled hence conditional statement -->
+        <div *ngIf="isSidePanelOpen">
+            <app-side-panel></app-side-panel>
+        </div>
+
+        <!-- Header section for mobile -->
+        <div class="mobile-header">
+            <div class="mobile-header-left">
+                <img src="assets/icons/toggle-for-menu.png" style="width: 40px;height: 40px;"
+                    (click)="showHideSidePanel()">
+                <span class="mobile-screen-heading">Assessment</span>
+            </div>
+            <img src="assets/icons/desktop-view.png" style="width: 40px;height: 40px;" (click)="toggleView()">
+        </div>
+
+        <!-- This is the tab-view section -->
+        <div class="mobile-tab-section">
+            <span class="tab-heading" [class.active]="selectedItem === 'My Assessments'"
+                (click)="selectItem('My Assessments')"
+                style="padding-bottom: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Assessments</span>
+            <span class="tab-heading" [class.active]="selectedItem === 'Unstop Assessments'"
+                (click)="selectItem('Unstop Assessments')" style="padding-bottom: 10px;">&nbsp;&nbsp;&nbsp;Unstop
+                Assessments</span>
+        </div>
+
+        <!-- This is the assesment overview which is toggled by clicking on the icon -->
+        <div class="rectangle-container" *ngIf="isMobileView && showGraph">
+            <div class="display-row-flex">
+
+                <div class="rectangular-individual-ele">
+                    <span class="rectangle-inner-heading">Total Assessment</span>
+                    <div class="display-row-flex">
+                        <div class="image-container">
+                            <img src="assets/icons/equalicon.png">
+                        </div>
+                        <span class="rect-inner-text">34</span>
+                    </div>
+                </div>
+
+                <div class="rectangular-individual-ele">
+                    <span class="rectangle-inner-heading">Total Purpose</span>
+                    <div class="display-row-flex">
+                        <div class="image-container">
+                            <img src="assets/icons/attachicon.png">
+                        </div>
+                        <span class="rect-inner-text">11</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Candidates</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/peopleicon.png">
+                    </div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text" style="font-size: 16px;">11,145</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+
+                        <span class="num-desc">Total Candidate</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text" style="font-size: 16px;">1,14</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+
+                        <span class="num-desc">Who Attempted</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rectangular-individual-ele">
+                <span class="rectangle-inner-heading">Candidates Source</span>
+                <div class="display-row-flex">
+                    <div class="image-container">
+                        <img src="assets/icons/interneticon.png">
+                    </div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text" style="font-size: 16px;">11,000</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+                        <span class="num-desc">E-mail</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text" style="font-size: 16px;">11,000</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+                        <span class="num-desc">Social Share</span>
+                    </div>
+                    <div class="vertical-line2"></div>
+                    <div class="inner-text-details">
+                        <div class="display-row-flex">
+                            <span class="rect-inner-text" style="font-size: 16px;">11,000</span> <span class="num-progress">&nbsp;+89</span>
+                        </div>
+                        <span class="num-desc">Unique Link</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Here starts the My Assessment section -->
+        <div class="page-heading">
+            <div class="mobile-header">
+                <div class="mobile-header-left">
+                    <span class="mobile-screen-heading">My Assessment</span>
+                </div>
+                <div class="mobile-header-left">
+                    <img src="assets/icons/search_icon.png" style="width: 22px;height: 22px;">
+                    <img src="assets/icons/filter_list_alt.png" style="width: 22px;height: 22px;">
+                    <img src="assets/icons/bar_chart.png" style="width: 22px;height: 22px;" (click)="ToggleGraph()" *ngIf="showGraph==false">
+                    <img src="assets/icons/bar_chartselected.png" style="width: 100%;height: 100%;" (click)="ToggleGraph()" *ngIf="showGraph">
+                </div>
+            </div>
+        </div>
+
+        <!-- This is the section where you can create and view the created assessment -->
+        <div class="card-section">
+            <div class="add-assessment-card">
+                <img src="assets/icons/AddAssem.png" class="add-assess-icon" style="height: 70px;width: 70px;" (click)="openModal()">
+                <span class="card-heading">New Assessment</span>
+                <span class="details-of-new-assesment">From here you can add questions of multiple types like MCQs,
+                    subjective (text or paragraph)!</span>
+            </div>
+            <div class="created-assessment-cards" *ngFor="let item of assessmentObj">
+                <div class="display-card-content1">
+                    <div class="display-icon">
+                        <img src={{item.assess_icon}} class="create-assess-icon" style=" height: 50px;width: 50px;">
+                        <img src="assets/icons/3_dot.png" style="height: 20px;width: 20px;">
+                    </div>
+                    <span class="card-heading">{{item.assess_name}}</span>
+                    <div class="display-row-card">
+                        <span class="assess-text">{{item.assess_type}}</span>
+                        <span style="border: 1px solid #ccc;"></span>
+                        <img src="assets/icons/calendar_today.png" style="height: 17px; width: 17px;">
+                        <span class="calender-date">{{item.assess_date}}</span>
+                    </div>
+                    <div class="assess-detail">
+                        <div class="display-row-flex">
+                            <div class="display-flex-column">
+                                <span class="assess-text">{{item.assess_duration}}</span>
+                                <span class="assess-text">Duration</span>
+                            </div>
+                            &nbsp;
+                            <div class="display-flex-column">
+                                <span class="assess-text">{{item.assess_question}}</span>
+                                <span class="assess-text">Questions</span>
+                            </div>
+                        </div>
+                        <div class="display-row-flex" style="gap:10px">
+                            <img src="assets/icons/share_button.png">
+                            <img src="assets/icons/initials.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- Adding condition for side-panel as in case of mobile-view the side-panel is toggled for opening and closing -->
+<!-- However in case of desktop view the side panel is fixed (visible all time) -->
+<div class="side-panel" *ngIf="isMobileView?isSidePanelOpen:true">
+
+    <!-- Menu required only in mobile view -->
+    <div class="menu-class" *ngIf="isMobileView">
+        <div class="display-menu-row">
+            <span>Menu</span>
+            <button type="button" class="close btnclose" aria-label="Close">
+                <span aria-hidden="true" (click)="closepanel()">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu/side-panel items -->
+    <ul class="list-group" [class.mobile-view-list-group]="isMobileView==true">
+        <li class="list-group-item " [class.active]="selectedItem === 'Dashboard'" (click)="selectItem('Dashboard')">
+            <div class="icon-container">
+                <img src="assets/icons/dashboard.png" [class.active]="selectedItem==='Dashboard' "
+                    (click)="selectItem('Dashboard')" alt="Dashboard" class="icon">
+            </div>
+            <span class="icon-name">Dashboard</span>
+        </li>
+
+        <li class="list-group-item" [class.active]="selectedItem === 'Assessment'" (click)="selectItem('Assessment')">
+            <div class="icon-container">
+                <img src="assets/icons/assessment.png" alt="Assessment" class="icon">
+            </div>
+            <span class="icon-name">Assessment</span>
+        </li>
+
+        <li class="list-group-item" [class.active]="selectedItem === 'My Library'" (click)="selectItem('My Library')">
+            <div class="icon-container">
+                <img src="assets/icons/quiz.png" alt="My Library" class="icon">
+            </div>
+            <span class="icon-name">My Library</span>
+        </li>
+
+        <li class="list-group-item">
+            <div class="border-between">
+                <img src="assets/icons/borderBeforeRound.png" alt="border" class="icon">
+            </div>
+        </li>
+
+        <li class="list-group-item-inadmin" [class.active]="selectedItem === 'Round Status'"
+            (click)="selectItem('Round Status')" *ngIf="!isMobileView">
+            <div class="admin-box">
+                <img src="assets/icons/admin.png" alt="" class="icon">
+            </div>
+            <div class="icon-container">
+                <img src="assets/icons/roundStatus.png" alt="Round Status" class="icon">
+            </div>
+            <span class="icon-name">Round Status</span>
+        </li>
+        <li class="list-group-item-inadmin" [class.active]="selectedItem === 'Round Status'"
+            (click)="selectItem('Round Status')" *ngIf="isMobileView">
+            <div class="icon-container">
+                <img src="assets/icons/roundStatus.png" alt="Round Status" class="icon">
+            </div>
+            <span class="icon-name">Round Status</span>
+            <div class="admin-box">
+                <img src="assets/icons/admin.png" alt="" class="icon">
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,15 @@
+<div class="layout" *ngIf="!isMobileView">
+  <!-- Side panel is fixed in case of desktop View -->
+  <app-side-panel></app-side-panel>
+  <div class="content">
+    <!-- This is where the assessment component will be loaded -->
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="isMobileView">
+  <!-- For mobile view assessment will be loaded directly -->
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Note - in the routes by default the assessment components is defined '' empty routes -->
