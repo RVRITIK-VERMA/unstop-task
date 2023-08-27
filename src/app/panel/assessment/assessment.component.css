@@ -62,7 +62,7 @@
     line-height: normal;
   }
   .tab-heading.active {
-    border-bottom: 1px solid #0073e6;
+    border-bottom: 2px solid #0073e6;
   }
   .mobile-section {
     overflow-x: hidden;
