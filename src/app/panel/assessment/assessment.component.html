@@ -58,7 +58,9 @@
                             </div>
                         </div>
                         <input type="text" class="form-control input-field" id="testSkills" name="testSkills"
-                            formControlName="testSkills" placeholder="Type Here" (keydown.enter)="addSkill($event)">
+                            formControlName="testSkills" placeholder="Type Here" (keydown.enter)="addSkill($event)" *ngIf="!isMobileView">
+                            <input type="text" class="form-control input-field" id="testSkills" name="testSkills"
+                            formControlName="testSkills" placeholder="Type Here" (keyup.Space)="addSkill($event)" *ngIf="isMobileView">
                     </div>
                     <div class="form-group">
                         <label for="testDuration" class="form-field">Duration of Assessment</label>
