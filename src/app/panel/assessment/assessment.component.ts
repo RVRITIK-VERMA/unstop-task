@@ -163,7 +163,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   //adding the entered skills in the skills-selected array
-  addSkill(event:Event) {
+  addSkill(event:any) {
     event.preventDefault();
     const skill = this.createAssessment.controls['testSkills'].value;
     if (skill && !this.selectedSkills.includes(skill)) {
