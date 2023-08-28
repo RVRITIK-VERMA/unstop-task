@@ -162,9 +162,20 @@ export class AssessmentComponent implements OnInit {
     }
   }
 
+  checkSpaceEvent(event:any){
+    if(this.isMobileView && event.key === ' '){
+      event.preventDefault();
+      this.AddSkillToSelectedSkills();
+    }
+  }
+
   //adding the entered skills in the skills-selected array
-  addSkill(event:any) {
+  CheckeEventForEnter(event:any) {
     event.preventDefault();
+    this.AddSkillToSelectedSkills();
+  }
+
+  AddSkillToSelectedSkills(){
     const skill = this.createAssessment.controls['testSkills'].value;
     if (skill && !this.selectedSkills.includes(skill)) {
       this.selectedSkills.push(skill);
