@@ -80,6 +80,7 @@ export class AssessmentComponent implements OnInit {
   checkMobileView() {
     if (window.innerWidth <= 768) {
       this.isMobileView = true;
+      // this.isSidePanelOpen = true
     } else {
       this.isMobileView = false;
     }

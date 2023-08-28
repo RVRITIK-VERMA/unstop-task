@@ -24,6 +24,9 @@ export class SidePanelComponent implements OnInit {
 
     // checking the current view for mobile view
     this.checkMobileView()
+    if (this.isMobileView){
+      this.isSidePanelOpen = !this.isSidePanelOpen;
+    }
   }
 
   selectItem(item: string): void {
