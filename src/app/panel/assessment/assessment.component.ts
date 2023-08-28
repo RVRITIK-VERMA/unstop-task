@@ -162,17 +162,14 @@ export class AssessmentComponent implements OnInit {
     }
   }
 
-  checkSpaceEvent(event:any){
-    if(this.isMobileView && event.key === ' '){
+  //adding the entered skills in the skills-selected array
+  addSkill(event:any) {
+    if((this.isMobileView && event.key === ' ') || event.key==="Enter"){
       event.preventDefault();
+      console.log(event.key);
       this.AddSkillToSelectedSkills();
     }
-  }
-
-  //adding the entered skills in the skills-selected array
-  CheckeEventForEnter(event:any) {
-    event.preventDefault();
-    this.AddSkillToSelectedSkills();
+    
   }
 
   AddSkillToSelectedSkills(){

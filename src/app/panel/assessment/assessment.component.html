@@ -58,9 +58,7 @@
                             </div>
                         </div>
                         <input type="text" class="form-control input-field" id="testSkills" name="testSkills"
-                            formControlName="testSkills" placeholder="Type Here" (keydown.enter)="CheckeEventForEnter($event)" *ngIf="!isMobileView">
-                            <input type="text" class="form-control input-field" id="testSkills" name="testSkills"
-                            formControlName="testSkills" placeholder="Type Here" (keydown)="checkSpaceEvent($event)" *ngIf="isMobileView">
+                            formControlName="testSkills" placeholder="Type Here" (keydown)="addSkill($event)">
                     </div>
                     <div class="form-group">
                         <label for="testDuration" class="form-field">Duration of Assessment</label>
