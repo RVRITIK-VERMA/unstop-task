@@ -164,11 +164,11 @@ export class AssessmentComponent implements OnInit {
 
   //adding the entered skills in the skills-selected array
   addSkill(event:any) {
-    if((this.isMobileView && event.key === ' ') || event.key==="Enter"){
+    // if((this.isMobileView && event.key === ' ') || event.key==="Enter"){
       event.preventDefault();
       console.log(event.key);
       this.AddSkillToSelectedSkills();
-    }
+    // }
     
   }
 
