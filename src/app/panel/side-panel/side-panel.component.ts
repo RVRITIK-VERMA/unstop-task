@@ -55,15 +55,15 @@ export class SidePanelComponent implements OnInit {
   checkMobileView() {
     if (window.innerWidth <= 768) {
       this.isMobileView = true;
-      this.isSidePanelOpen = true;
+      // this.isSidePanelOpen = true;
     } else {
       this.isMobileView = false;
     }
   }
 
   //Adding resize event using hostListner to dynamically call the checkmobile view function when window resizes
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: Event) {
-  //   this.checkMobileView();
-  // }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkMobileView();
+  }
 }
