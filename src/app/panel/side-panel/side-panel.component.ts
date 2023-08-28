@@ -62,8 +62,8 @@ export class SidePanelComponent implements OnInit {
   }
 
   //Adding resize event using hostListner to dynamically call the checkmobile view function when window resizes
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
-    this.checkMobileView();
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: Event) {
+  //   this.checkMobileView();
+  // }
 }
